@@ -4,7 +4,7 @@ MAINTAINER Tomasz Jankowski
 WORKDIR /root
 
 RUN apt-get update && \
-    apt-get install --no-install-recommends -yy build-essential perl libxml2-dev zlib1g-dev libxml2-utils clang llvm-dev bison flex wget git python python3 && \
+    apt-get install --no-install-recommends -yy build-essential perl libxml2-dev zlib1g-dev libxml2-utils clang llvm-dev bison flex wget python && \
     apt-get clean && \
     apt-get autoclean
 
@@ -17,7 +17,8 @@ RUN tar xf inet.tgz && \
     rm inet.tgz
 
 WORKDIR /root/omnetpp-5.2.1
-RUN echo "CXXFLAGS_RELEASE='-std=c++14 -O3 -DNDEBUG=1 -D_XOPEN_SOURCE'" >> configure.user
+RUN echo "CFLAGS_RELEASE='-O3 -DNDEBUG=1 -D_XOPEN_SOURCE'" >> configure.user && \
+    echo "CXXFLAGS='-std=c++14'" >> configure.user
 ENV PATH /root/omnetpp-5.2.1/bin:$PATH
 ENV LD_LIBRARY_PATH=/root/omnetpp-5.2.1/lib:$LD_LIBRARY_PATH
 RUN ls -lah; ./configure WITH_TKENV=no WITH_QTENV=no WITH_OSG=no WITH_OSGEARTH=no && \
