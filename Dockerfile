@@ -27,3 +27,6 @@ RUN ls -lah; ./configure WITH_TKENV=no WITH_QTENV=no WITH_OSG=no WITH_OSGEARTH=n
 WORKDIR /root/inet
 RUN make makefiles && \
     make -j $(nproc) MODE=release
+
+RUN alias python=python3 && \
+    alias pip=pip3
