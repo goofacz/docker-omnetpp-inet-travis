@@ -4,7 +4,7 @@ MAINTAINER Tomasz Jankowski
 WORKDIR /root
 
 RUN apt-get update && \
-    apt-get install --no-install-recommends -yy build-essential perl libxml2-dev zlib1g-dev libxml2-utils clang llvm-dev bison flex wget python && \
+    apt-get install --no-install-recommends -yy build-essential perl libxml2-dev zlib1g-dev libxml2-utils clang llvm-dev bison flex wget python python3 git python3-pip ssh && \
     apt-get clean && \
     apt-get autoclean
 
