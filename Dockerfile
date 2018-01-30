@@ -30,3 +30,5 @@ RUN make makefiles && \
 
 RUN alias python=python3 && \
     alias pip=pip3
+
+ENV PYTHONPATH /root/smile/python
