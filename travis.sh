@@ -35,12 +35,12 @@ function run_omnetpp_tests_stage {
         return
     fi
 
-    echo "** Running OMNET++ tests"
+    echo "*** Running OMNET++ tests"
 
     cd /root/smile/tests
     ./runtest
     FAILURES_FOUND=`opp_test check -p smile * | grep "FAIL: 0" | wc -l`
-    if [ "$FAILURES_FOUND" -ne "0" ]
+    if [ "$FAILURES_FOUND" -eq "0" ]
     then
         exit 1
     fi
