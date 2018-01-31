@@ -22,21 +22,24 @@ function build_stage {
 
     if [ -z "$SMILE_FRAMEWORK" ]
     then
-        echo "*** Build repository under test"
-        cd /root/repository
+        echo "*** Build $PROJECT_NAME"
+        cd /root/$PROJECT_NAME
+
+        make makefiles
+        make -j $(nproc) MODE=release V=1
     fi
 } # function build_stage
 
 function run_omnetpp_tests_stage {
-    if [ ! -d "/root/repository/tests" ]
+    if [ ! -d "/root/$PROJECT_NAME/tests" ]
     then
-        echo "*** Skipping OMNET++ tests, directory \"/root/repository/tests\" was not found"
+        echo "*** Skipping OMNET++ tests, directory \"/root/$PROJECT_NAME/tests\" was not found"
         return
     fi
 
     echo "*** Running OMNET++ tests"
 
-    cd /root/repository/tests
+    cd /root/$PROJECT_NAME/tests
     ./runtest
     FAILURES_FOUND=`opp_test check -p smile * | grep "FAIL: 0" | wc -l`
     if [ "$FAILURES_FOUND" -eq "0" ]
@@ -46,15 +49,15 @@ function run_omnetpp_tests_stage {
 } # run_omnetpp_tests_stage
 
 function run_python_tests_stage {
-    if [ ! -d "/root/repository/python/tests" ]
+    if [ ! -d "/root/$PROJECT_NAME/python/tests" ]
     then
-        echo "*** Skipping Python tests, directory \"/root/repository/python/tests\" was not found"
+        echo "*** Skipping Python tests, directory \"/root/$PROJECT_NAME/python/tests\" was not found"
         return
     fi
 
     echo "*** Running Python tests"
 
-    cd /root/repository/python
+    cd /root/$PROJECT_NAME/python
     python3 -m unittest tests/*
 } # run_python_tests_stage
 
@@ -63,6 +66,12 @@ then
     echo "*** Building & testing component based on SMILe framework"
 else
     echo "*** Building & testing SMILe framework"
+fi
+
+if [ -z "$PROJECT_NAME" ]
+then
+    echo "PROJECT_NAME environment variable is unset"
+    exit 1
 fi
 
 build_stage
