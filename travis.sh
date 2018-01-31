@@ -27,7 +27,6 @@ function build_stage {
     fi
 } # function build_stage
 
-
 function run_omnetpp_tests_stage {
     if [ ! -d "/root/smile/tests" ]
     then
@@ -46,6 +45,19 @@ function run_omnetpp_tests_stage {
     fi
 } # run_omnetpp_tests_stage
 
+function run_python_tests_stage {
+    if [ ! -d "/root/smile/python/tests" ]
+    then
+        echo "*** Skipping Python tests, directory \"/root/smilepython//tests\" was not found"
+        return
+    fi
+
+    echo "*** Running Python tests"
+
+    cd /root/smile/python
+    python3 -m unittest tests/*
+} # run_python_tests_stage
+
 if [ -z "$SMILE_FRAMEWORK" ]
 then
     echo "*** Building & testing component based on SMILe framework"
@@ -55,5 +67,6 @@ fi
 
 build_stage
 run_omnetpp_tests_stage
+run_python_tests_stage
 
 exit 0
