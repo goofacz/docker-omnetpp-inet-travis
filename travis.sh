@@ -28,15 +28,15 @@ function build_stage {
 } # function build_stage
 
 function run_omnetpp_tests_stage {
-    if [ ! -d "/root/smile/tests" ]
+    if [ ! -d "/root/repository/tests" ]
     then
-        echo "*** Skipping OMNET++ tests, directory \"/root/smile/tests\" was not found"
+        echo "*** Skipping OMNET++ tests, directory \"/root/repository/tests\" was not found"
         return
     fi
 
     echo "*** Running OMNET++ tests"
 
-    cd /root/smile/tests
+    cd /root/repository/tests
     ./runtest
     FAILURES_FOUND=`opp_test check -p smile * | grep "FAIL: 0" | wc -l`
     if [ "$FAILURES_FOUND" -eq "0" ]
@@ -46,15 +46,15 @@ function run_omnetpp_tests_stage {
 } # run_omnetpp_tests_stage
 
 function run_python_tests_stage {
-    if [ ! -d "/root/smile/python/tests" ]
+    if [ ! -d "/root/repository/python/tests" ]
     then
-        echo "*** Skipping Python tests, directory \"/root/smilepython//tests\" was not found"
+        echo "*** Skipping Python tests, directory \"/root/repository/python/tests\" was not found"
         return
     fi
 
     echo "*** Running Python tests"
 
-    cd /root/smile/python
+    cd /root/repository/python
     python3 -m unittest tests/*
 } # run_python_tests_stage
 
