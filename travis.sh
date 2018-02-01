@@ -5,11 +5,15 @@ set -e
 function build_stage {
     if [ -z "$SMILE_FRAMEWORK" ]
     then
-        echo "*** Clone SMILe"
+        echo "********************************************************************************"
+        echo " Clone SMILe"
+        echo "********************************************************************************"
         git -c http.sslVerify=false clone https://github.com/goofacz/smile.git /root/smile
     fi
 
-    echo "*** Build SMILe"
+    echo "********************************************************************************"
+    echo " Build SMILe"
+    echo "********************************************************************************"
     cd /root/smile
     make makefiles
     make -j $(nproc) MODE=release V=1
@@ -22,7 +26,9 @@ function build_stage {
 
     if [ -z "$SMILE_FRAMEWORK" ]
     then
-        echo "*** Build $PROJECT_NAME"
+        echo "********************************************************************************"
+        echo " Build $PROJECT_NAME"
+        echo "********************************************************************************"
         cd /root/$PROJECT_NAME
 
         make makefiles
@@ -37,7 +43,9 @@ function run_omnetpp_tests_stage {
         return
     fi
 
-    echo "*** Running OMNET++ tests"
+    echo "********************************************************************************"
+    echo " Running OMNET++ tests"
+    echo "********************************************************************************"
 
     cd /root/$PROJECT_NAME/tests
     ./runtest
@@ -55,18 +63,22 @@ function run_python_tests_stage {
         return
     fi
 
-    echo "*** Running Python tests"
+    echo "********************************************************************************"
+    echo " Running Python tests"
+    echo "********************************************************************************"
 
     cd /root/$PROJECT_NAME/python
     python3 -m unittest tests/*
 } # run_python_tests_stage
 
+echo "********************************************************************************"
 if [ -z "$SMILE_FRAMEWORK" ]
 then
-    echo "*** Building & testing component based on SMILe framework"
+    echo " Building & testing component based on SMILe framework"
 else
-    echo "*** Building & testing SMILe framework"
+    echo " Building & testing SMILe framework"
 fi
+echo "********************************************************************************"
 
 if [ -z "$PROJECT_NAME" ]
 then
