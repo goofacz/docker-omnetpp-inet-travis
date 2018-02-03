@@ -22,11 +22,11 @@ RUN echo "CFLAGS_RELEASE='-O3 -DNDEBUG=1 -D_XOPEN_SOURCE'" >> configure.user && 
 ENV PATH /root/omnetpp-5.2.1/bin:$PATH
 ENV LD_LIBRARY_PATH=/root/omnetpp-5.2.1/lib:$LD_LIBRARY_PATH
 RUN ls -lah; ./configure WITH_TKENV=no WITH_QTENV=no WITH_OSG=no WITH_OSGEARTH=no && \
-    make -j $(nproc) MODE=release
+    make -j $(nproc) MODE=release VERBOSE=1
     
 WORKDIR /root/inet
 RUN make makefiles && \
-    make -j $(nproc) MODE=release
+    make -j $(nproc) MODE=release VERBOSE=1
     
 COPY travis.sh /root
 ENTRYPOINT ["/root/travis.sh"]
