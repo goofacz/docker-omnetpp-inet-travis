@@ -68,7 +68,7 @@ function run_python_tests_stage {
     echo "********************************************************************************"
 
     cd /root/$PROJECT_NAME/python
-    python3 -m unittest tests/*
+    python3 -m unittest discover tests/ -v
 } # run_python_tests_stage
 
 echo "********************************************************************************"
