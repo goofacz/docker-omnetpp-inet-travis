@@ -71,27 +71,27 @@ function run_python_tests_stage {
     python3 -m unittest discover tests/ -v
 } # run_python_tests_stage
 
-function run_simple_stationary_simulation {
-    echo "********************************************************************************"
-    echo " Running simple OMNET++ stationary simulation"
-    echo "********************************************************************************"
-
-    if [ ! -f "/root/$PROJECT_NAME/simulations/omnetpp.ini" ]
-    then
-        echo "*** Skipping simulation, \"/root/$PROJECT_NAME/simulations/omnetpp.ini\" was not found"
-        return
-    fi
-
-    CONFIG_DEFINED=`grep travis_simple_stationary_simulation /root/$PROJECT_NAME/simulations/omnetpp.ini | wc -l`
-    if [ "$CONFIG_DEFINED" -eq "0" ]
-    then
-        echo "*** Skipping simulation, configuration \"travis_simple_stationary_simulation\" was not found"
-        return
-    fi
-
-    cd /root/$PROJECT_NAME
-    opp_run -u Cmdenv -n ../inet/src/:../smile/src/:../smile/simulations/:./src/:./simulations/ ./simulations/omnetpp.ini -l ../inet/src/INET -l ../smile/src/smile -l ./src/$PROJECT_NAME -c travis_simple_stationary_simulation
-} # run_simple_stationary_simulation
+#function run_simple_stationary_simulation {
+#    echo "********************************************************************************"
+#    echo " Running simple OMNET++ stationary simulation"
+#    echo "********************************************************************************"
+#
+#    if [ ! -f "/root/$PROJECT_NAME/simulations/omnetpp.ini" ]
+#    then
+#        echo "*** Skipping simulation, \"/root/$PROJECT_NAME/simulations/omnetpp.ini\" was not found"
+#        return
+#    fi
+#
+#    CONFIG_DEFINED=`grep travis_simple_stationary_simulation /root/$PROJECT_NAME/simulations/omnetpp.ini | wc -l`
+#    if [ "$CONFIG_DEFINED" -eq "0" ]
+#    then
+#        echo "*** Skipping simulation, configuration \"travis_simple_stationary_simulation\" was not found"
+#        return
+#    fi
+#
+#    cd /root/$PROJECT_NAME
+#    opp_run -u Cmdenv -n ../inet/src/:../smile/src/:../smile/simulations/:./src/:./simulations/ ./simulations/omnetpp.ini -l ../inet/src/INET -l ../smile/src/smile -l ./src/$PROJECT_NAME -c travis_simple_stationary_simulation
+#} # run_simple_stationary_simulation
 
 echo "********************************************************************************"
 if [ -z "$SMILE_FRAMEWORK" ]
@@ -111,6 +111,6 @@ fi
 build_stage
 run_omnetpp_tests_stage
 run_python_tests_stage
-run_simple_stationary_simulation
+#run_simple_stationary_simulation
 
 exit 0
