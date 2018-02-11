@@ -37,15 +37,15 @@ function build_stage {
 } # function build_stage
 
 function run_omnetpp_tests_stage {
+    echo "********************************************************************************"
+    echo " Running OMNET++ tests"
+    echo "********************************************************************************"
+
     if [ ! -d "/root/$PROJECT_NAME/tests" ]
     then
         echo "*** Skipping OMNET++ tests, directory \"/root/$PROJECT_NAME/tests\" was not found"
         return
     fi
-
-    echo "********************************************************************************"
-    echo " Running OMNET++ tests"
-    echo "********************************************************************************"
 
     cd /root/$PROJECT_NAME/tests
     ./runtest
@@ -57,19 +57,30 @@ function run_omnetpp_tests_stage {
 } # run_omnetpp_tests_stage
 
 function run_python_tests_stage {
-    if [ ! -d "/root/$PROJECT_NAME/python/tests" ]
+    echo "********************************************************************************"
+    echo " Running simple stationary simulation"
+    echo "********************************************************************************"
+
+    if [ ! -f "/root/$PROJECT_NAME/simulations/omnetpp.ini" ]
     then
-        echo "*** Skipping Python tests, directory \"/root/$PROJECT_NAME/python/tests\" was not found"
+        echo "*** Skipping simulation, \"/root/$PROJECT_NAME/simulations/omnetpp.ini\" was not found"
         return
     fi
 
-    echo "********************************************************************************"
-    echo " Running Python tests"
-    echo "********************************************************************************"
+    CONFIG_DEFINED=`grep travis_simple_stationary_simulation /root/$PROJECT_NAME/simulations/omnetpp.ini | wc -l`
+    if [ "$CONFIG_DEFINED" -eq "0" ]
+    then
+        echo "*** Skipping simulation, configuration \"travis_simple_stationary_simulation\" was not found"
+        return
+    fi
 
-    cd /root/$PROJECT_NAME/python
-    python3 -m unittest discover tests/ -v
+    cd /root/$PROJECT_NAME
+    opp_run -u Cmdenv -n ../inet/src/:../smile/src/:../smile/simulations/:./src/:./simulations/ ./simulations/omnetpp.ini -l ../inet/src/INET -l ../smile/src/smile -l ./src/$PROJECT_NAME -c travis_simple_stationary_simulation
 } # run_python_tests_stage
+
+function run_simple_stationary_simulation {
+
+} # run_simple_stationary_simulation
 
 echo "********************************************************************************"
 if [ -z "$SMILE_FRAMEWORK" ]
