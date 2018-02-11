@@ -19,7 +19,7 @@ RUN tar xf inet.tgz && \
 # Prefer gcc/g++ over because configure failed to find libxml2 using clang/clang++
 WORKDIR /root/omnetpp-5.2.1
 RUN echo "CFLAGS_RELEASE='-O3 -DNDEBUG=1 -D_XOPEN_SOURCE'" >> configure.user && \
-    echo "CXXFLAGS='-std=c++14'" >> configure.user
+    echo "CXXFLAGS='-std=c++14'" >> configure.user && \
     sed -i 's/PREFER_CLANG=yes/PREFER_CLANG=no/g' configure.user
 ENV PATH /root/omnetpp-5.2.1/bin:$PATH
 ENV LD_LIBRARY_PATH=/root/omnetpp-5.2.1/lib:$LD_LIBRARY_PATH
