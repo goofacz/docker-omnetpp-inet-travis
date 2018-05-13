@@ -48,9 +48,16 @@ function run_omnetpp_tests_stage {
     fi
 
     cd /root/$PROJECT_NAME/tests
-    ./runtest
-    FAILURES_FOUND=`opp_test check -p smile * | grep "FAIL: 0" | wc -l`
+
+    OUTPUT=$(./runtest 2>&1)
+    FAILURES_FOUND=`ehco "$OUTPUT" | grep "FAIL: 0" | wc -l`
     if [ "$FAILURES_FOUND" -eq "0" ]
+    then
+        exit 1
+    fi
+
+    UNRESOLVED_FOUND=`ehco "$OUTPUT" | grep "UNRESOLVED: 0" | wc -l`
+    if [ "$UNRESOLVED_FOUND" -eq "0" ]
     then
         exit 1
     fi
