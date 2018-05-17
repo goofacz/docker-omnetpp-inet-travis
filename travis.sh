@@ -24,6 +24,7 @@ function build_stage {
     
     echo "*** Set PYTHONPATH environment variable"
     export PYTHONPATH=/root/smile/python
+    export SMILE_WORKSPACE_PATH=/root
 
     if [ -z "$SMILE_FRAMEWORK" ]
     then
