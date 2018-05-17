@@ -19,7 +19,6 @@ function build_stage {
     make -j $(nproc) MODE=release V=1
     
     echo "*** Install Python dependencies with pip"
-    pip3 install --upgrade pip
     pip3 install setuptools
     pip3 install -r requirements.txt
     
